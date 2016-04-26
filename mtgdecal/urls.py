@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^matchrecorder/', include('matchrecorder.urls')),
+    url(r'^', include('matchrecorder.urls')),
     url(r'^admin/', admin.site.urls),
 ]

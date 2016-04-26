@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'', include('registration.backends.simple.urls')),
     url(r'^player_history/(?P<player_id>[0-9]+)/$', \
             views.player_history, \
             name='player_history'),
