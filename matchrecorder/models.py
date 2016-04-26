@@ -1,11 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.conf import settings
 import uuid
 
 class Player(models.Model):
-    DCI = models.PositiveIntegerField(unique=True, default=uuid.uuid4)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    DCI = models.CharField(max_length=100, unique=True, default=uuid.uuid4)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tournaments = models.CharField(max_length=5000, default='[]') # str of tournament_ids
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_player_for_new_user(sender, created, instance, **kwargs):
+    if created:
+        player = Player(user=instance)
+        player.save()
 
 DEFAULT_HO = 0
 class Tournament(models.Model):
